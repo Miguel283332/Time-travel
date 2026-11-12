@@ -59,27 +59,52 @@ aproximadamente LiteBIRD) solo alcanzaría $\Delta\chi^2_{EE}\approx 2{,}7$:
 la polarización **no puede decidir por sí sola** en la región que Planck aún
 permite. Su papel sería combinarse con TT.
 
+### 4. ¿Depende del estado inicial? (segunda figura)
+
+![Comparación de estados](../resultados/comparar_estados.png)
+
+Se repitió todo con el **vacío no oscilante** (Martín de Blas y Olmedo 2016):
+el estado que minimiza $\int(\partial_\eta|v_k|^2)^2d\eta$ en un intervalo.
+Para cada modo se reduce a minimizar una forma cuadrática en
+$(|c_1|^2, |c_2|^2, \mathrm{Re}\,c_1c_2^*)$ sobre el hiperboloide que impone
+la normalización (autovalores generalizados 3×3).
+
+| Estado inicial | $\langle F\rangle$ en $k = 0{,}01\,k_{\rm LQC}$ | Cota de Planck (Δχ² = 4) |
+|---|---|---|
+| Adiabático en la contracción ($t=-10^4$) | 24 | $k_{\rm LQC} < 4{,}3\times10^{-4}$ Mpc⁻¹ ($\ell<6$; $1{,}9\,a_0H_0$) |
+| No oscilante en $[-10^4, 10^4]$ | 3,5 | $k_{\rm LQC} < 1{,}07\times10^{-3}$ Mpc⁻¹ ($\ell<15$; $4{,}8\,a_0H_0$) |
+| No oscilante en $[0, 10^4]$ (tras el rebote) | 1,003 | Sin cota: el rebote no deja huella |
+
+**Lo que muestra:** el tamaño del efecto depende mucho del estado (un factor
+~7 en $\langle F\rangle$ entre los dos primeros, y desaparece en el tercero).
+Pero **en los tres casos la potencia aumenta o queda igual; nunca disminuye.**
+En esta combinación de modelo (métrica vestida + Starobinsky + LQC efectiva) no
+hemos encontrado un estado que produzca el déficit que observa Planck.
+
 ## Qué significa (y qué no)
 
-- **No refuta la gravedad cuántica de bucles.** Refuta (o mejor: acota) una
-  combinación concreta: LQC efectiva + métrica vestida + vacío adiabático en la
-  contracción + inflación de Starobinsky.
-- **El estado cuántico inicial es la pieza decisiva.** Se ha propuesto en la
-  literatura que otros estados (Ashtekar–Gupt 2017; estados "no oscilantes" del
-  enfoque híbrido de Martín de Blas y Olmedo 2016) **suprimen** la potencia en
-  lugar de aumentarla, y Ashtekar, Gupt, Jeong y Sreenath (2020) sostienen que
-  así se alivian las anomalías de Planck. Este cálculo muestra que con el
-  estado más simple ocurre lo contrario, de modo que la conclusión depende de
-  qué estado elija la naturaleza.
-- **Es un resultado negativo útil:** indica que, si la LQC tiene que explicar
-  las anomalías a gran escala, debe hacerlo con un estado inicial que suprima
-  la potencia, y eso es lo que hay que calcular a continuación.
+- **No refuta la gravedad cuántica de bucles.** Acota combinaciones concretas:
+  LQC efectiva + métrica vestida + inflación de Starobinsky + un estado inicial.
+- **El estado cuántico inicial es la pieza decisiva** (sección 4): cambia el
+  tamaño del efecto en un orden de magnitud y puede borrarlo por completo.
+- **No hemos reproducido la supresión** que la literatura atribuye a ciertos
+  estados. Martín de Blas y Olmedo (2016) la obtienen con el vacío no
+  oscilante en el enfoque **híbrido**; Ashtekar, Gupt, Jeong y Sreenath (2020)
+  con el estado de Ashtekar–Gupt, y sostienen que así se alivian las anomalías
+  de Planck. Con el vacío no oscilante en el enfoque de **métrica vestida**
+  aquí solo aparece realce. Dos explicaciones posibles, que hay que separar:
+  la supresión depende del enfoque (híbrido frente a métrica vestida), o
+  depende de detalles de la definición del estado (intervalo, variable
+  minimizada) que no hemos replicado exactamente.
+- **Lo que sí es firme:** si la LQC ha de explicar el déficit de potencia a
+  gran escala, no puede hacerlo con el estado más simple; necesita un
+  mecanismo de supresión que hay que identificar y calcular.
 
 ## Siguientes pasos
 
-1. Implementar estados alternativos (Ashtekar–Gupt, no oscilante) y repetir el
-   contraste. Si alguno mejora el ajuste, cuantificarlo con $\Delta\chi^2$ y
-   comparar con el número de parámetros añadidos.
+1. ✅ Vacío no oscilante (dos intervalos): realce menor o nulo, sin supresión.
+   ⬜ Estado de Ashtekar–Gupt (que, según sus autores, sí suprime) y enfoque
+   híbrido: comprobar si la supresión depende del enfoque y no solo del estado.
 2. Liberar $A_s$, $n_s$ y $\tau$ y añadir la verosimilitud de alto ℓ y EE de
    bajo ℓ de Planck (marginalizar en lugar de fijar la cosmología).
 3. Añadir modos tensoriales (ondas gravitacionales primordiales): predicción
@@ -131,7 +156,14 @@ $P_{\mathcal R} = k^3|\mathcal R|^2/2\pi^2$, evaluado cuando
 $k/aH < 10^{-3}$.
 
 - **Estado inicial:** vacío adiabático en la fase de contracción, en
-  $t_i = -10^4$ (energía cinética dominante, $V/\rho \sim 10^{-3}$).
+  $t_i = -10^4$ (energía cinética dominante, $V/\rho \sim 10^{-3}$). En la
+  sección 4 de resultados se compara con el vacío no oscilante.
+- **Espectro promediado:** para $k<k_{\rm LQC}$, $F$ oscila en $k$ con periodo
+  $\Delta k/k\sim10^{-4}$, muy por debajo de lo que el fondo cósmico resuelve
+  (en unidades físicas, $\sim10^{-7}$ Mpc⁻¹ frente a $\sim4\times10^{-4}$
+  Mpc⁻¹ del núcleo de proyección). Lo observable es el promedio, que se
+  calcula exactamente con el coeficiente de Bogoliubov medido en la fase
+  cinética tras el rebote ($t_m = 10^4$): $\langle F\rangle = 1+2|\beta_k|^2$.
 - **Referencia:** el mismo modo con vacío de Bunch–Davies al inicio de la
   inflación. $F(k) = P_{\rm LQC}/P_{\rm BD}$ aísla el efecto del rebote.
 - **Convergencia:** RK4 con 200 pasos por oscilación; con 100 pasos el
@@ -160,6 +192,11 @@ $$
 
 ```bash
 pip install -r requirements.txt
-python3 simulaciones/lqc_perturbaciones.py            # ~minutos, 4 núcleos
+python3 simulaciones/lqc_perturbaciones.py            # ~30 s con 4 núcleos
 python3 simulaciones/cmb_lqc.py                        # descarga los datos de Planck la 1.ª vez
+python3 simulaciones/lqc_perturbaciones.py --estado no-oscilante --ta=-1e4
+python3 simulaciones/lqc_perturbaciones.py --estado no-oscilante --ta=0 \
+        --salida resultados/espectro_lqc_no_oscilante_tras_rebote.csv
+python3 simulaciones/cmb_lqc.py --espectro resultados/espectro_lqc_no_oscilante.csv --etiqueta no_oscilante
+python3 simulaciones/comparar_estados.py
 ```

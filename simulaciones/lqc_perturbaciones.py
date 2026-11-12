@@ -234,6 +234,107 @@ def bogoliubov_modo(y0, t0, k, t_m):
     return b2, a2 - b2 - 1.0
 
 
+@njit(cache=True)
+def no_oscilante_modo(y0, t_a, k, t_b):
+    """Ingredientes del vacío no oscilante en [t_a, t_b].
+
+    Se evolucionan dos soluciones reales s1 (v=1, v'=0) y s2 (v=0, v'=1),
+    guardadas en las partes real e imaginaria de Q (la ecuación es real y
+    lineal, así que no se mezclan). Para un estado v = c1 s1 + c2 s2,
+        |v|² = X s1² + Y s2² + 2 Z s1 s2,
+        X = |c1|², Y = |c2|², Z = Re(c1 c2*),
+    y el funcional ∫ (∂_η |v|²)² dη = q^T M q con q = (X, Y, Z),
+    M = ∫ w w^T dη, w = (2 s1 s1', 2 s2 s2', 2 (s1 s2)').
+    Devuelve M (6 componentes), s1, s1', s2, s2' y ω en t_b.
+    """
+    y = y0.copy()
+    a = math.exp(y[0])
+    H = y[1]
+    # v = 1, v' = 0  ->  Q = 1/a, Q̇ = -H/a ;   v = 0, v' = 1 -> Q = 0, Q̇ = 1/a²
+    y[4] = 1.0 / a
+    y[6] = -H / a
+    y[5] = 0.0
+    y[7] = 1.0 / (a * a)
+    Mxx = Myy = Mzz = Mxy = Mxz = Myz = 0.0
+    t = t_a
+    w_prev = np.zeros(3)
+    deta_prev = 0.0
+    primero = True
+    while True:
+        a = math.exp(y[0])
+        H = y[1]
+        s1, s2 = a * y[4], a * y[5]
+        d1, d2 = a * a * (H * y[4] + y[6]), a * a * (H * y[5] + y[7])
+        w0, w1, w2 = 2 * s1 * d1, 2 * s2 * d2, 2 * (d1 * s2 + s1 * d2)
+        if not primero:
+            # trapecio en η
+            h = deta_prev
+            Mxx += 0.5 * h * (w_prev[0] ** 2 + w0 * w0)
+            Myy += 0.5 * h * (w_prev[1] ** 2 + w1 * w1)
+            Mzz += 0.5 * h * (w_prev[2] ** 2 + w2 * w2)
+            Mxy += 0.5 * h * (w_prev[0] * w_prev[1] + w0 * w1)
+            Mxz += 0.5 * h * (w_prev[0] * w_prev[2] + w0 * w2)
+            Myz += 0.5 * h * (w_prev[1] * w_prev[2] + w1 * w2)
+        primero = False
+        w_prev[0], w_prev[1], w_prev[2] = w0, w1, w2
+        if t >= t_b:
+            break
+        dt = min(paso_temporal(y, t, k), t_b - t)
+        a_ini = a
+        y = paso_rk4(y, dt, k)
+        t += dt
+        deta_prev = 0.5 * dt * (1 / a_ini + math.exp(-y[0]))
+    p, pd = y[2], y[3]
+    rho = 0.5 * pd * pd + V(p)
+    f = 24 * math.pi * pd * pd / rho
+    sg = 1.0 if pd * H >= 0 else -1.0
+    U = Vpp(p) + f * V(p) + 2 * sg * math.sqrt(f) * Vp(p)
+    Hd = -4 * math.pi * pd * pd * (1 - 2 * rho / RHO_C)
+    om = math.sqrt(k * k + a * a * U - a * a * (Hd + 2 * H * H))
+    out = np.empty(11)
+    out[0], out[1], out[2], out[3], out[4], out[5] = Mxx, Myy, Mzz, Mxy, Mxz, Myz
+    out[6], out[7], out[8], out[9], out[10] = s1, d1, s2, d2, om
+    return out
+
+
+@njit(parallel=True, cache=True)
+def no_oscilante(ks, y0, t_a, t_b):
+    out = np.empty((ks.size, 11))
+    for i in prange(ks.size):
+        out[i] = no_oscilante_modo(y0, t_a, ks[i], t_b)
+    return out
+
+
+def beta2_no_oscilante(fila):
+    """Resuelve min q^T M q con XY - Z² = 1/(4 W²) y devuelve |β|² en t_b."""
+    Mxx, Myy, Mzz, Mxy, Mxz, Myz, s1, d1, s2, d2, om = fila
+    W = s1 * d2 - s2 * d1  # wronskiano de las soluciones reales (= 1)
+    M = np.array([[Mxx, Mxy, Mxz], [Mxy, Myy, Myz], [Mxz, Myz, Mzz]])
+    J = np.array([[0, 0.5, 0], [0.5, 0, 0], [0, 0, -1.0]])
+    lam, vec = np.linalg.eig(np.linalg.solve(J, M))
+    mejor = None
+    for i in np.argsort(lam.real):
+        q = vec[:, i].real
+        nj = q @ J @ q
+        if nj <= 0:
+            continue
+        q = q / math.sqrt(nj) / (2 * abs(W))
+        if q[0] < 0:
+            q = -q
+        if q[0] > 0 and q[1] > 0:
+            mejor = q
+            break
+    X, Y, Z = mejor
+    im = 1 / (2 * W)  # Im(c1 c2*) para que v v'* - v* v' = i
+    c1 = math.sqrt(X)
+    c2 = (Z - 1j * im) / c1
+    v = c1 * s1 + c2 * s2
+    dv = c1 * d1 + c2 * d2
+    b2 = abs(om * v - 1j * dv) ** 2 / (2 * om)
+    a2 = abs(om * v + 1j * dv) ** 2 / (2 * om)
+    return b2, a2 - b2 - 1.0
+
+
 @njit(parallel=True, cache=True)
 def bogoliubov(ks, y0, t0, t_m):
     out = np.empty((ks.size, 2))
@@ -259,6 +360,10 @@ def main():
     ap.add_argument("--n", type=int, default=400, help="número de modos")
     ap.add_argument("--kmin", type=float, default=0.003, help="k mínimo en unidades de k_LQC")
     ap.add_argument("--kmax", type=float, default=30.0, help="k máximo en unidades de k_LQC")
+    ap.add_argument("--estado", choices=["adiabatico", "no-oscilante"], default="adiabatico",
+                    help="estado inicial de las perturbaciones")
+    ap.add_argument("--ta", type=float, default=-1e4,
+                    help="inicio del intervalo del vacío no oscilante; use --ta=-1e4")
     ap.add_argument("--exacto", action="store_true",
                     help="evolución completa de cada modo hasta salir del horizonte (lento)")
     ap.add_argument("--salida", default=None)
@@ -284,6 +389,17 @@ def main():
         F = P_lqc / P_bd
         columnas = np.column_stack([xs, P_lqc, P_bd, F])
         nombres = "k_sobre_kLQC, P_LQC, P_BD, F=P_LQC/P_BD"
+    elif args.estado == "no-oscilante":
+        salida = args.salida or os.path.join("resultados", "espectro_lqc_no_oscilante.csv")
+        y_a = fondo_hasta(args.ta)
+        crudo = no_oscilante(ks, y_a, args.ta, args.tm)
+        res = np.array([beta2_no_oscilante(f) for f in crudo])
+        F = 1 + 2 * res[:, 0]
+        columnas = np.column_stack([xs, res[:, 0], res[:, 1], F])
+        nombres = (f"Vacío no oscilante en [{args.ta}, {args.tm}]\n"
+                   "k_sobre_kLQC, beta2, error_wronskiano, F_promedio=1+2*beta2")
+        print(f"Vacío no oscilante en t ∈ [{args.ta:.0e}, {args.tm:.0e}]")
+        print(f"Error máximo del wronskiano |α|²-|β|²-1: {np.abs(res[:, 1]).max():.1e}")
     else:
         salida = args.salida or os.path.join("resultados", "espectro_lqc.csv")
         res = bogoliubov(ks, y_i, args.ti, args.tm)

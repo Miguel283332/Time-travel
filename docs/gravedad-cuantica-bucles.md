@@ -106,8 +106,10 @@ $$H^2 = \frac{8\pi G}{3}\,\rho\left(1-\frac{\rho}{\rho_c}\right), \qquad \rho_c 
 > **Estado:** pasos 1–3 hechos y primer contraste con Planck completado.
 > Resultados en [`resultados-cmb.md`](resultados-cmb.md): con el estado
 > inicial más simple, el rebote aumenta la potencia a gran escala y Planck lo
-> acota a $k_{\rm LQC} < 4{,}3\times10^{-4}$ Mpc⁻¹. Siguiente: estados
-> iniciales que suprimen potencia.
+> acota a $k_{\rm LQC} < 4{,}3\times10^{-4}$ Mpc⁻¹. Con el vacío no oscilante
+> el realce es menor (cota $1{,}07\times10^{-3}$ Mpc⁻¹) o desaparece; ningún
+> estado probado suprime potencia. Siguiente: estado de Ashtekar–Gupt y
+> enfoque híbrido.
 
 Es la ruta con **datos públicos ya disponibles** (Planck, y pronto LiteBIRD y
 CMB-S4):

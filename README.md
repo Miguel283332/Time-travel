@@ -17,6 +17,7 @@ Demostrar la gravedad cuántica es necesario, pero no suficiente.
 | [`docs/resultados-cmb.md`](docs/resultados-cmb.md) | **Primer contraste con datos reales:** espectro primordial con rebote cuántico → fondo cósmico de microondas → Planck 2018. Resultado, validaciones y siguientes pasos. |
 | [`simulaciones/lqc_perturbaciones.py`](simulaciones/lqc_perturbaciones.py) | Perturbaciones a través del rebote (métrica vestida, Starobinsky); espectro promediado con coeficientes de Bogoliubov o evolución exacta (`--exacto`). |
 | [`simulaciones/cmb_lqc.py`](simulaciones/cmb_lqc.py) | CAMB + verosimilitud de bajo ℓ de Planck 2018: barrido en la escala del rebote, cota y predicción para la polarización. |
+| [`simulaciones/comparar_estados.py`](simulaciones/comparar_estados.py) | Compara el efecto del rebote y la cota de Planck para distintos estados iniciales. |
 | [`simulaciones/lqg_espectros.py`](simulaciones/lqg_espectros.py) | Espectro de área de LQG, densidad del espectro y parámetro de Barbero-Immirzi fijado por la entropía de agujeros negros. |
 | [`simulaciones/lqc_rebote.py`](simulaciones/lqc_rebote.py) | Rebote de la cosmología cuántica de bucles frente a la singularidad de la relatividad general. |
 | [`simulaciones/ctc_cuantico.py`](simulaciones/ctc_cuantico.py) | Modelos de Deutsch (D-CTC) y de post-selección (P-CTC): paradoja del abuelo, bucle de información y no linealidad. |
