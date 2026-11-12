@@ -13,6 +13,9 @@ Demostrar la gravedad cuántica es necesario, pero no suficiente.
 | Archivo | Qué es |
 |---|---|
 | [`docs/planteamiento.md`](docs/planteamiento.md) | Documento principal: definiciones, base clásica, teoremas, gravedad cuántica, estructura lógica, hipótesis falsables, hoja de ruta y referencias. |
+| [`docs/gravedad-cuantica-bucles.md`](docs/gravedad-cuantica-bucles.md) | Programa para confirmar la gravedad cuántica de bucles: niveles de demostración, estado actual, resultados reproducidos y ruta hacia una predicción observable (fondo cósmico de microondas). |
+| [`simulaciones/lqg_espectros.py`](simulaciones/lqg_espectros.py) | Espectro de área de LQG, densidad del espectro y parámetro de Barbero-Immirzi fijado por la entropía de agujeros negros. |
+| [`simulaciones/lqc_rebote.py`](simulaciones/lqc_rebote.py) | Rebote de la cosmología cuántica de bucles frente a la singularidad de la relatividad general. |
 | [`simulaciones/ctc_cuantico.py`](simulaciones/ctc_cuantico.py) | Modelos de Deutsch (D-CTC) y de post-selección (P-CTC): paradoja del abuelo, bucle de información y no linealidad. |
 | [`simulaciones/escalas_fisicas.py`](simulaciones/escalas_fisicas.py) | Órdenes de magnitud: dilatación temporal (GPS, relojes a 33 cm), energía de Casimir frente a la que necesita un agujero de gusano, escala de Planck. |
 
@@ -22,4 +25,6 @@ Demostrar la gravedad cuántica es necesario, pero no suficiente.
 pip install numpy
 python3 simulaciones/ctc_cuantico.py
 python3 simulaciones/escalas_fisicas.py
+python3 simulaciones/lqg_espectros.py
+python3 simulaciones/lqc_rebote.py
 ```
