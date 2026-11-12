@@ -102,6 +102,13 @@ $$H^2 = \frac{8\pi G}{3}\,\rho\left(1-\frac{\rho}{\rho_c}\right), \qquad \rho_c 
 - ⬜ Amplitud de vértice EPRL y comprobación numérica de su asintótica de Regge.
 
 ### Fase B — La predicción más accesible: el fondo cósmico de microondas
+
+> **Estado:** pasos 1–3 hechos y primer contraste con Planck completado.
+> Resultados en [`resultados-cmb.md`](resultados-cmb.md): con el estado
+> inicial más simple, el rebote aumenta la potencia a gran escala y Planck lo
+> acota a $k_{\rm LQC} < 4{,}3\times10^{-4}$ Mpc⁻¹. Siguiente: estados
+> iniciales que suprimen potencia.
+
 Es la ruta con **datos públicos ya disponibles** (Planck, y pronto LiteBIRD y
 CMB-S4):
 
@@ -176,6 +183,9 @@ primordiales que estarían "explotando" hoy.
 - Agullo, I., Ashtekar, A. & Nelson, W. (2012). Quantum gravity extension of the inflationary scenario. *Phys. Rev. Lett.* 109, 251301.
 - Fernández-Méndez, M., Mena Marugán, G. A. & Olmedo, J. (2012). Hybrid quantization of an inflationary universe. *Phys. Rev. D* 86, 024003.
 - Ashtekar, A., Gupt, B., Jeong, D. & Sreenath, V. (2020). Alleviating the tension in the cosmic microwave background using Planck-scale physics. *Phys. Rev. Lett.* 125, 051302.
+
+- Martín de Blas, D. & Olmedo, J. (2016). Primordial power spectra for scalar perturbations in loop quantum cosmology. *JCAP* 06, 029.
+- Ashtekar, A. & Gupt, B. (2017). Quantum gravity in the sky: interplay between fundamental theory and observations. *Class. Quantum Grav.* 34, 014002.
 
 **Fenomenología y experimentos**
 - Rovelli, C. & Speziale, S. (2003). Reconcile Planck-scale discreteness and the Lorentz-Fitzgerald contraction. *Phys. Rev. D* 67, 064019.
