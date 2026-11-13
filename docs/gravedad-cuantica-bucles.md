@@ -126,6 +126,10 @@ CMB-S4):
    tipo E y B a gran escala) que un experimento futuro pueda confirmar o
    refutar. Esto es lo que cuenta como N3/N4.
 
+### Vía de laboratorio (nivel N0)
+Plan de un dispositivo para comprobar si la gravedad es cuántica, con una
+masa en superposición como fuente del campo: [`plan-dispositivo.md`](plan-dispositivo.md).
+
 ### Fase C — Segunda línea: agujeros negros
 Transición agujero negro → agujero blanco (Haggard–Rovelli 2015): estimar el
 tiempo de vida y las señales (rayos gamma, radio) de agujeros negros
